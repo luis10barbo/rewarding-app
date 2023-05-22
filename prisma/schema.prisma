@@ -1,0 +1,35 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Reward {
+  idReward   String @unique @default(cuid())
+  nameReward String
+  Goal       Goal[]
+}
+
+model Goal {
+  idGoal   String  @unique @default(cuid())
+  idReward String?
+
+  nameGoal        String
+  descriptionGoal String?
+  goalSteps       GoalStep[]
+  reward          Reward?    @relation(fields: [idReward], references: [idReward])
+}
+
+model GoalStep {
+  idGoalStep String @unique @default(cuid())
+  idGoal     String
+
+  contentStep String
+  goal        Goal   @relation(fields: [idGoal], references: [idGoal])
+}

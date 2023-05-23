@@ -11,19 +11,29 @@ datasource db {
 }
 
 model Reward {
-  idReward   String @unique @default(cuid())
-  nameReward String
-  Goal       Goal[]
+  idReward String @unique @default(cuid())
+  idUser   String
+
+  nameReward  String
+  valueReward Float
+
+  User User   @relation(fields: [idUser], references: [idUser])
+  Goal Goal[]
 }
 
 model Goal {
   idGoal   String  @unique @default(cuid())
   idReward String?
+  idUser   String
 
   nameGoal        String
   descriptionGoal String?
   goalSteps       GoalStep[]
   reward          Reward?    @relation(fields: [idReward], references: [idReward])
+
+  completed  Boolean
+  user       User    @relation(fields: [idUser], references: [idUser])
+  userIdUser String?
 }
 
 model GoalStep {
@@ -31,5 +41,28 @@ model GoalStep {
   idGoal     String
 
   contentStep String
-  goal        Goal   @relation(fields: [idGoal], references: [idGoal])
+  goal        Goal   @relation(fields: [idGoal], references: [idGoal], onDelete: Cascade)
+
+  completed Boolean
+}
+
+model Session {
+  idSession String  @id @unique
+  idUser    String?
+
+  user User?
+}
+
+model User {
+  idUser       String  @unique @default(cuid())
+  idSession    String? @unique
+  nicknameUser String  @unique
+
+  passwordUser String
+
+  balanceUser Float
+
+  goals   Goal[]
+  reward  Reward[]
+  session Session? @relation(fields: [idSession], references: [idSession], onDelete: Cascade)
 }

@@ -1,17 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  AllGoals,
-  deleteAllGoals,
-  getAllGoals,
-  saveGoal,
-} from "./server/db/goalsTable";
-import { getUser, login, logout, register } from "./server/session/user";
-import { User } from "@prisma/client";
+import Home from "@/components/pages/Home";
 import { UserProvider } from "@/context/UserContext";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <UserProvider>
       <Home />

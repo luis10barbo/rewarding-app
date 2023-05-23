@@ -6,7 +6,6 @@ import {
 } from "@/app/server/db/goalsTable";
 import { register, login, logout } from "@/app/server/session/user";
 import { UserContext } from "@/context/UserContext";
-import { User } from "@prisma/client";
 import { useState, useEffect, useContext } from "react";
 
 const Home: React.FC = () => {
@@ -78,7 +77,10 @@ const Home: React.FC = () => {
         {/* {JSON.stringify(goals)} */}
         {goals?.map((goal) => {
           return (
-            <div className="flex gap-2 w-[512px] min-h-[6rem] bg-gradient-to-tr from-neutral-900 to-neutral-700 p-4 text-white rounded-xl">
+            <div
+              key={goal.idGoal}
+              className="flex gap-2 w-[512px] min-h-[6rem] bg-gradient-to-tr from-neutral-900 to-neutral-700 p-4 text-white rounded-xl"
+            >
               <div className="flex flex-col flex-1">
                 <p>{goal.nameGoal}</p>
                 <p className="text-neutral-300 text-sm mb-4">
@@ -89,7 +91,10 @@ const Home: React.FC = () => {
                     <p className="text-sm">Etapas</p>
                     {goal.goalSteps.map((step, index) => {
                       return (
-                        <div className="bg-neutral-500/20 p-2 rounded-md">
+                        <div
+                          key={step.idGoalStep}
+                          className="bg-neutral-500/20 p-2 rounded-md"
+                        >
                           <div
                             className={`step-${index + 1}`}
                             key={step.idGoalStep}

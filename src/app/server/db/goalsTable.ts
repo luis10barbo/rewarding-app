@@ -2,11 +2,9 @@
 
 import db from "@/app/server/prisma";
 import { Goal } from "@prisma/client";
-import { getUser } from "../session/user";
 import { AuthenticatedCall } from "../templates/callTemplates";
-import { revalidatePath } from "next/cache";
 
-export async function getGoal(idGoal: Goal["idGoal"]) {
+export async function getGoalSV(idGoal: Goal["idGoal"]) {
   return db.goal.findUnique({
     where: {
       idGoal,
@@ -18,9 +16,9 @@ export async function getGoal(idGoal: Goal["idGoal"]) {
     },
   });
 }
-export type UniqueGoal = NonNullable<Awaited<ReturnType<typeof getGoal>>>;
+export type UniqueGoal = NonNullable<Awaited<ReturnType<typeof getGoalSV>>>;
 
-export async function saveGoal(params: {
+export async function saveGoalSV(params: {
   nameGoal: string;
   descriptionGoal?: string;
   goalSteps: string[];
@@ -60,9 +58,9 @@ export async function saveGoal(params: {
     });
   });
 }
-export type AllGoals = NonNullable<Awaited<ReturnType<typeof getAllGoals>>>;
+export type Goals = NonNullable<Awaited<ReturnType<typeof getAllGoalsSV>>>;
 
-export async function getAllGoals() {
+export async function getAllGoalsSV() {
   return await db.goal.findMany({
     include: {
       goalSteps: true,
@@ -71,6 +69,22 @@ export async function getAllGoals() {
   });
 }
 
-export async function deleteAllGoals() {
+export async function getMyGoalsSV() {
+  return await new AuthenticatedCall().execute(async ({ user }) => {
+    return await db.goal.findMany({
+      where: { user: { idUser: user.idUser } },
+      include: {
+        goalSteps: true,
+        reward: true,
+      },
+    });
+  });
+}
+
+export async function deleteAllGoalsSV() {
   return await db.goal.deleteMany({ where: {} });
+}
+
+export async function deleteGoalSV(idGoal: string) {
+  return await db.goal.delete({ where: { idGoal } });
 }

@@ -1,4 +1,3 @@
-import { saveGoal, deleteAllGoals } from "@/app/server/db/goalsTable";
 import { logoutServer } from "@/app/server/session/user";
 import HeaderButton from "./HeaderButton";
 import { useContext } from "react";

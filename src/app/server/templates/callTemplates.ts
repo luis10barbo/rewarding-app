@@ -2,12 +2,6 @@ import { User } from "@prisma/client";
 import { getUser } from "../session/user";
 
 export class PublicCall {
-  constructor() {
-    this.initialize();
-  }
-  private async initialize() {
-    this.run();
-  }
   private async privateRun() {}
   setExecution(execution: () => Promise<void>) {
     this.privateRun = execution;
@@ -27,11 +21,13 @@ export class PublicCall {
 export class AuthenticatedCall {
   user!: User;
   constructor() {
-    this.initialize();
+    this.getUser();
   }
-  private async initialize() {
+  private async getUser() {
     const user = await getUser();
-    if (!user) throw new Error("User is not logged in.");
+    if (!user) {
+      throw new Error("User is not logged in.");
+    }
 
     this.user = user;
   }
@@ -55,7 +51,8 @@ export class AuthenticatedCall {
     this.setExecution(execution);
     this.run();
   }
-  run() {
+  async run() {
+    if (!this.user) await this.getUser();
     this.privateRun({ user: this.user });
   }
 }

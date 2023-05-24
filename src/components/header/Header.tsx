@@ -37,9 +37,8 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
           >
             logout
           </HeaderButton>
-          {/* <p>{user.nicknameUser}</p> */}
 
-          {/* <p>R${user.balanceUser}</p> */}
+          <p>Saldo: R${user.balanceUser}</p>
         </>
       )}
     </header>

@@ -17,8 +17,8 @@ model Reward {
   nameReward  String
   valueReward Float
 
-  User User   @relation(fields: [idUser], references: [idUser])
-  Goal Goal[]
+  user User   @relation(fields: [idUser], references: [idUser])
+  goal Goal[]
 }
 
 model Goal {

@@ -1,10 +1,11 @@
 "use client";
+
 import {
   getUser,
   loginServer,
   logoutServer,
   registerServer,
-} from "@/app/server/session/user";
+} from "@/server/session/user";
 import {
   type Dispatch,
   type SetStateAction,
@@ -18,9 +19,9 @@ export type getUserResult = Awaited<ReturnType<typeof getUser>>;
 interface UserContextInterface {
   user: getUserResult;
   setUser: Dispatch<SetStateAction<getUserResult>>;
-  login: (nickname: string, password: string) => void;
-  register: (nickname: string, password: string) => void;
-  logout: () => void;
+  login: (nickname: string, password: string) => Promise<void>;
+  register: (nickname: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextInterface>(
@@ -34,7 +35,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function loadUser() {
     const user = await getUser();
-    if (user) setUser(user);
+    setUser(user);
   }
 
   async function login(nickname: string, password: string) {

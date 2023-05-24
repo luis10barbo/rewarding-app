@@ -1,4 +1,4 @@
-import { Goals } from "@/app/server/db/goalsTable";
+import { Goals } from "@/server/db/goalsTable";
 import GoalCardSteps from "./GoalCardStep";
 import { useContext, useState } from "react";
 import { EditableText } from "./GoalEditableComponents";
@@ -7,7 +7,7 @@ import { GoalsContext } from "@/context/GoalsContext";
 
 export type Goal = Goals[0];
 const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
-  const [isEditing, setEditing] = useState(true);
+  const [isEditing, setEditing] = useState(false);
 
   const { deleteGoal } = useContext(GoalsContext);
   return (

@@ -1,4 +1,4 @@
-import { logoutServer } from "@/app/server/session/user";
+import { logoutServer } from "@/server/session/user";
 import HeaderButton from "./HeaderButton";
 import { useContext } from "react";
 import { UserContext } from "@/context/UserContext";
@@ -6,7 +6,7 @@ import { UserContext } from "@/context/UserContext";
 const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
   extraComponents = <></>,
 }) => {
-  const { register, login, user } = useContext(UserContext);
+  const { register, login, user, logout } = useContext(UserContext);
   return (
     <header className="flex justify-center items-center gap-2 ">
       {extraComponents}
@@ -14,15 +14,15 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
       {!user ? (
         <>
           <HeaderButton
-            onClick={() => {
-              register("luis10barbo", "teste");
+            onClick={async () => {
+              await register("luis10barbo", "teste");
             }}
           >
             registrar
           </HeaderButton>
           <HeaderButton
-            onClick={() => {
-              login("luis10barbo", "teste");
+            onClick={async () => {
+              await login("luis10barbo", "teste");
             }}
           >
             login
@@ -31,8 +31,8 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
       ) : (
         <>
           <HeaderButton
-            onClick={() => {
-              logoutServer();
+            onClick={async () => {
+              await logout();
             }}
           >
             logout

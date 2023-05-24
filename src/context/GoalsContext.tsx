@@ -1,10 +1,10 @@
 import {
-  getMyGoalsSV,
-  saveGoalSV,
-  type Goals,
+  Goals,
   deleteGoalSV,
+  saveGoalSV,
+  getMyGoalsSV,
   deleteAllGoalsSV,
-} from "@/app/server/db/goalsTable";
+} from "@/server/db/goalsTable";
 import {
   createContext,
   Dispatch,

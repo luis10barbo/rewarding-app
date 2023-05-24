@@ -1,8 +1,7 @@
 "use server";
-
-import db from "@/app/server/prisma";
 import { Goal } from "@prisma/client";
 import { AuthenticatedCall } from "../templates/callTemplates";
+import db from "../prisma";
 
 export async function getGoalSV(idGoal: Goal["idGoal"]) {
   return db.goal.findUnique({

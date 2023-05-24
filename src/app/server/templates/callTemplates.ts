@@ -32,27 +32,27 @@ export class AuthenticatedCall {
     this.user = user;
   }
   private async privateRun({ user }: { user: User }) {}
-  setExecution(
+  setExecution<Return>(
     execution: ({
       user,
     }: {
       user: User;
-    }) => Promise<void> | (() => Promise<void>)
+    }) => Promise<Return> | (() => Promise<Return>)
   ) {
     this.privateRun = execution as typeof this.privateRun;
   }
-  execute(
+  async execute<Return>(
     execution: ({
       user,
     }: {
       user: User;
-    }) => Promise<void> | (() => Promise<void>)
-  ): void {
+    }) => Promise<Return> | (() => Promise<Return>)
+  ): Promise<Return> {
     this.setExecution(execution);
-    this.run();
+    return (await this.run()) as Return;
   }
   async run() {
     if (!this.user) await this.getUser();
-    this.privateRun({ user: this.user });
+    return await this.privateRun({ user: this.user });
   }
 }

@@ -99,7 +99,7 @@ const Home: React.FC = () => {
                     {goal.reward && (
                       <div className="flex flex-col text-center gap-2">
                         <p className="text-sm ">Recompensa</p>
-                        <div className="aspect-square relative  h-24 bg-neutral-600/30 rounded-md">
+                        <div className="aspect-square relative  h-24 bg-neutral-500/30 rounded-md">
                           <div className="absolute w-full h-full justify-center items-center flex flex-col ">
                             {goal.reward.nameReward && (
                               <p>{goal.reward.nameReward}</p>

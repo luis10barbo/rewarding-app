@@ -13,7 +13,7 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
   return (
     <div
       key={goal.idGoal}
-      className="flex gap-2 w-[512px] min-h-[6rem] bg-gradient-to-tr bg-neutral-500/20  p-4 text-white rounded-xl"
+      className="flex gap-2 min-w-[300px] max-w-[512px] min-h-[6rem] bg-gradient-to-tr bg-neutral-500/20  p-4 text-white rounded-xl"
     >
       <div className="flex flex-col flex-1 gap-2">
         <div className="flex gap-4">
@@ -80,13 +80,22 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
           ) : (
             <>
               <button
-                className="p-2 w-full bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md"
+                className="p-2 bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md"
                 onClick={async () => {
                   await deleteGoal(goal.idGoal);
                 }}
               >
                 Remover
               </button>
+              <button
+                className="p-2 w-full bg-green-300/20 hover:bg-green-300/30 duration-75 rounded-md"
+                onClick={async () => {
+                  await deleteGoal(goal.idGoal);
+                }}
+              >
+                Finalizar
+              </button>
+
               <button
                 onClick={() => setEditing((oldState) => !oldState)}
                 className="p-2 bg-neutral-500/20 hover:bg-neutral-500/30 duration-75 rounded-md"

@@ -8,7 +8,7 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
 }) => {
   const { register, login, user, logout } = useContext(UserContext);
   return (
-    <header className="flex justify-center items-center gap-2 ">
+    <header className="flex justify-center items-center gap-2 h-[66px] ">
       {extraComponents}
 
       {!user ? (

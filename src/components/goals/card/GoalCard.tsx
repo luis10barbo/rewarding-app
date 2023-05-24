@@ -1,12 +1,15 @@
-import { AllGoals, deleteGoal } from "@/app/server/db/goalsTable";
+import { Goals } from "@/app/server/db/goalsTable";
 import GoalCardSteps from "./GoalCardStep";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { EditableText } from "./GoalEditableComponents";
 import Link from "next/link";
+import { GoalsContext } from "@/context/GoalsContext";
 
-export type Goal = AllGoals[0];
+export type Goal = Goals[0];
 const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
   const [isEditing, setEditing] = useState(true);
+
+  const { deleteGoal } = useContext(GoalsContext);
   return (
     <div
       key={goal.idGoal}
@@ -58,7 +61,11 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
         {goal.goalSteps.length > 0 && (
           <div className="goal-steps flex flex-col gap-2 ">
             {goal.goalSteps.map((step) => (
-              <GoalCardSteps step={step} key={step.idGoalStep}></GoalCardSteps>
+              <GoalCardSteps
+                step={step}
+                isEditing={isEditing}
+                key={step.idGoalStep}
+              ></GoalCardSteps>
             ))}
           </div>
         )}

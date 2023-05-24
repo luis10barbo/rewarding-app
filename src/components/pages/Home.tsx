@@ -1,29 +1,17 @@
-import {
-  AllGoals,
-  getAllGoals,
-  saveGoal,
-  deleteAllGoals,
-  getMyGoals,
-} from "@/app/server/db/goalsTable";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import HeaderButton from "../header/HeaderButton";
 import Header from "../header/Header";
 import GoalCard from "../goals/card/GoalCard";
 import { UserContext } from "@/context/UserContext";
+import { GoalsContext } from "@/context/GoalsContext";
 
 const Home: React.FC = () => {
-  const [goals, setGoals] = useState<AllGoals | null>();
-
   const { user } = useContext(UserContext);
-
-  async function getGoals() {
-    const goal = await getMyGoals();
-    console.log(goal);
-    setGoals(goal);
-  }
+  const { goals, getMyGoals, saveGoal, deleteAllGoals } =
+    useContext(GoalsContext);
 
   useEffect(() => {
-    getGoals();
+    getMyGoals();
   }, [user]);
 
   return (
@@ -43,7 +31,6 @@ const Home: React.FC = () => {
                     "A descricao mais pica do mundo e maior mais logan longa logan",
                   reward: { nameReward: "Pizza Enorme", valueReward: 72.5 },
                 });
-                getGoals();
               }}
             >
               Criar default
@@ -51,7 +38,6 @@ const Home: React.FC = () => {
             <HeaderButton
               onClick={async () => {
                 await deleteAllGoals();
-                getGoals();
               }}
             >
               Deletar todos

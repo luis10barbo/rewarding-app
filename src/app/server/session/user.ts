@@ -26,8 +26,10 @@ export async function getUser() {
   return session.user;
 }
 
-export async function login(nickname: string, password: string) {
-  const user = await db.user.findUnique({ where: { nicknameUser: nickname } });
+export async function loginServer(nickname: string, password: string) {
+  const user = await db.user.findFirst({
+    where: { nicknameUser: nickname, passwordUser: password },
+  });
   if (!user) return;
 
   await db.session.update({
@@ -36,14 +38,14 @@ export async function login(nickname: string, password: string) {
   });
 }
 
-export async function logout() {
+export async function logoutServer() {
   await db.session.update({
     where: { idSession: await getSessionCookie() },
     data: { user: { disconnect: true } },
   });
 }
 
-export async function register(nickname: string, password: string) {
+export async function registerServer(nickname: string, password: string) {
   console.log(nickname, password);
 
   await db.session.update({

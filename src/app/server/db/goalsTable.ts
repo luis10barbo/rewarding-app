@@ -71,6 +71,22 @@ export async function getAllGoals() {
   });
 }
 
+export async function getMyGoals() {
+  return await new AuthenticatedCall().execute(async ({ user }) => {
+    return await db.goal.findMany({
+      where: { user: { idUser: user.idUser } },
+      include: {
+        goalSteps: true,
+        reward: true,
+      },
+    });
+  });
+}
+
 export async function deleteAllGoals() {
   return await db.goal.deleteMany({ where: {} });
+}
+
+export async function deleteGoal(idGoal: string) {
+  return await db.goal.delete({ where: { idGoal } });
 }

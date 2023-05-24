@@ -50,13 +50,12 @@ model Session {
   idSession String  @id @unique
   idUser    String?
 
-  user User?
+  user User? @relation(fields: [idUser], references: [idUser], onDelete: Cascade)
 }
 
 model User {
-  idUser       String  @unique @default(cuid())
-  idSession    String? @unique
-  nicknameUser String  @unique
+  idUser       String @unique @default(cuid())
+  nicknameUser String @unique
 
   passwordUser String
 
@@ -64,5 +63,5 @@ model User {
 
   goals   Goal[]
   reward  Reward[]
-  session Session? @relation(fields: [idSession], references: [idSession], onDelete: Cascade)
+  session Session[]
 }

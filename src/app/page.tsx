@@ -6,10 +6,8 @@ import { UserProvider } from "@/context/UserContext";
 
 export default function HomePage() {
   return (
-    <UserProvider>
-      <GoalsProvider>
-        <Home />
-      </GoalsProvider>
-    </UserProvider>
+    <GoalsProvider>
+      <Home />
+    </GoalsProvider>
   );
 }

@@ -8,12 +8,13 @@ import { GoalsContext } from "@/context/GoalsContext";
 export type Goal = Goals[0];
 const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
   const [isEditing, setEditing] = useState(false);
+  const [isOptionsOpen, setOptionsOpen] = useState(false);
 
   const { deleteGoal } = useContext(GoalsContext);
   return (
     <div
       key={goal.idGoal}
-      className="flex gap-2 min-w-[300px] max-w-[512px] min-h-[6rem] bg-gradient-to-tr bg-neutral-500/20  p-4 text-white rounded-xl"
+      className="flex gap-2 min-w-[300px] w-full max-w-[512px] min-h-[6rem] bg-gradient-to-tr bg-neutral-500/20  p-4 text-white rounded-xl"
     >
       <div className="flex flex-col flex-1 gap-2">
         <div className="flex gap-4">
@@ -79,8 +80,8 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
             </button>
           ) : (
             <>
-              <button
-                className="p-2 bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md"
+              {/* <button
+                className="ml-auto p-2 bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md"
                 onClick={async () => {
                   await deleteGoal(goal.idGoal);
                 }}
@@ -88,26 +89,41 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
                 Remover
               </button>
               <button
-                className="p-2 w-full bg-green-300/20 hover:bg-green-300/30 duration-75 rounded-md"
-                onClick={async () => {
-                  await deleteGoal(goal.idGoal);
-                }}
-              >
-                Finalizar
-              </button>
-
-              <button
                 onClick={() => setEditing((oldState) => !oldState)}
                 className="p-2 bg-neutral-500/20 hover:bg-neutral-500/30 duration-75 rounded-md"
               >
                 Editar
-              </button>
+              </button> */}
             </>
           )}
-
-          <button className="h-[40px] p-2 aspect-square hover:bg-neutral-500/20 duration-75 rounded-md">
-            ...
-          </button>
+          <div className="ml-auto relative">
+            <div
+              className={`flex duration-75 flex-col gap-2 right-0 absolute bottom-12 bg-neutral-500/20 backdrop-blur-sm p-2 rounded-md text-sm ${
+                isOptionsOpen ? "opacity-100" : "pointer-events-none opacity-0"
+              }`}
+            >
+              <button
+                className="ml-auto w-full p-2 bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md "
+                onClick={async () => {
+                  await deleteGoal(goal.idGoal);
+                }}
+              >
+                Remover
+              </button>
+              <button
+                onClick={() => setEditing((oldState) => !oldState)}
+                className="p-2 w-full bg-neutral-500/20 hover:bg-neutral-500/30 duration-75 rounded-md"
+              >
+                Editar
+              </button>
+            </div>
+            <button
+              className="h-[40px] p-2 aspect-square hover:bg-neutral-500/20 duration-75 rounded-md"
+              onClick={() => setOptionsOpen((o) => !o)}
+            >
+              ...
+            </button>
+          </div>
         </div>
       </div>
     </div>

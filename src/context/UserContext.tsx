@@ -22,6 +22,7 @@ interface UserContextInterface {
   login: (nickname: string, password: string) => Promise<void>;
   register: (nickname: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  loadUser: () => Promise<void>;
 }
 
 export const UserContext = createContext<UserContextInterface>(
@@ -58,7 +59,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, register, logout }}>
+    <UserContext.Provider
+      value={{ user, setUser, login, register, logout, loadUser }}
+    >
       {children}
     </UserContext.Provider>
   );

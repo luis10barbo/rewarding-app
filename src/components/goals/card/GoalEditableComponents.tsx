@@ -33,7 +33,7 @@ export const EditableText: React.FC<
         <p
           {...htmlParams}
           contentEditable={true}
-          className={`cursor-pointer outline-none bg-neutral-300/20 hover:bg-neutral-300/30 focus:border-neutral-400 border border-transparent duration-75 rounded-md outline-2 p-1 ${params.className}`}
+          className={`cursor-pointer outline-none bg-neutral-300/20 hover:bg-neutral-300/30 focus:border-neutral-400 border-transparent border  duration-75 rounded-md outline-2 p-1 ${params.className}`}
           suppressContentEditableWarning={true}
           ref={paragraphRef}
           onInput={(e) => {
@@ -46,7 +46,7 @@ export const EditableText: React.FC<
       ) : (
         <p
           {...htmlParams}
-          className={`border border-transparent ${htmlParams.className}`}
+          className={`border-transparent border  ${htmlParams.className}`}
         >
           {params.textValue}
         </p>

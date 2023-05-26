@@ -3,18 +3,19 @@ import { getUser } from "../session/user";
 
 export class PublicCall {
   private async privateRun() {}
-  setExecution(execution: () => Promise<void>) {
-    this.privateRun = execution;
-    return this;
+  setExecution<Return>(
+    execution: () => Promise<Return> | (() => Promise<Return>)
+  ) {
+    this.privateRun = execution as typeof this.privateRun;
   }
-  execute(execution: () => Promise<void>) {
+  async execute<Return>(
+    execution: () => Promise<Return> | (() => Promise<Return>)
+  ): Promise<Return> {
     this.setExecution(execution);
-    this.run();
-    return this;
+    return (await this.run()) as Return;
   }
-  run() {
-    this.privateRun();
-    return this;
+  async run() {
+    return await this.privateRun();
   }
 }
 

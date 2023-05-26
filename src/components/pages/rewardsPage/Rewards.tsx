@@ -2,7 +2,7 @@
 
 import Header from "@/components/header/Header";
 import HeaderButton from "@/components/header/HeaderButton";
-import RewardCard from "@/components/rewards/card/RewardCard";
+import RewardCard from "@/components/pages/rewardsPage/card/RewardCard";
 import { RewardsContext } from "@/context/RewardsContext";
 import { UserContext } from "@/context/UserContext";
 import Image from "next/image";

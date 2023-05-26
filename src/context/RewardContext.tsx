@@ -1,6 +1,6 @@
 "use client";
 
-import { Rewards } from "@/components/rewards/card/RewardCard";
+import { Rewards } from "@/components/pages/rewardsPage/card/RewardCard";
 import {
   claimRewardSV,
   getMyRewardSV,

@@ -9,16 +9,12 @@ const Home: React.FC = () => {
   const { user } = useContext(UserContext);
   const { goals, getMyGoals, saveGoal, deleteAllGoals } =
     useContext(GoalsContext);
-
   useEffect(() => {
     getMyGoals();
   }, [user]);
 
   return (
-    <main
-      className="flex items-center min-h-screen bg-gradient-radial flex-col gap-2 relative overflow-hidden
-        after:rounded-full z-10 py-4"
-    >
+    <>
       <Header
         extraComponents={
           <>
@@ -45,7 +41,7 @@ const Home: React.FC = () => {
           </>
         }
       />
-      <div className="z-20 flex flex-col items-center gap-2">
+      <div className="z-20 flex flex-col items-center gap-2 w-full">
         {/* <div className="w-full rounded-xl  bg-transparent border border-neutral-500 outline-1 focus:border-neutral-400 outline-none duration-75">
           <input className="bg-transparent w-full p-2 rounded-xl outline-none"></input>
         </div> */}
@@ -54,9 +50,9 @@ const Home: React.FC = () => {
           <GoalCard goal={goal} key={goal.idGoal} />
         ))}
       </div>
-      <div className="w-full h-[90%] bg-cyan-300/10 absolute -top-32 -z-10 blur-[100px] rounded-full"></div>
-      <div className="w-full h-full bg-neutral-900/10 absolute -z-20 top-0"></div>
-    </main>
+      {/* <div className="w-full h-[90%] bg-cyan-300/10 absolute -top-32 -z-10 blur-[100px] rounded-full"></div>
+      <div className="w-full h-full bg-neutral-900/10 absolute -z-20 top-0"></div> */}
+    </>
   );
 };
 export default Home;

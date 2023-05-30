@@ -10,11 +10,11 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
   const [isEditing, setEditing] = useState(false);
   const [isOptionsOpen, setOptionsOpen] = useState(false);
 
-  const { deleteGoal } = useContext(GoalsContext);
+  const { deleteGoal, markAsCompleted } = useContext(GoalsContext);
   return (
     <div
       key={goal.idGoal}
-      className="flex gap-2 min-w-[300px] w-full max-w-[512px] min-h-[6rem] bg-gradient-to-tr bg-neutral-500/20  p-4 text-white rounded-xl"
+      className="flex gap-2 min-w-[300px] w-full max-w-3xl min-h-[6rem] bg-gradient-to-tr bg-neutral-900  p-4 text-white rounded-xl"
     >
       <div className="flex flex-col flex-1 gap-2">
         <div className="flex gap-4">
@@ -36,28 +36,6 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
               <p className="text-sm mt-auto">Etapas</p>
             )}
           </div>
-
-          <div>
-            {goal.reward && (
-              <div className="flex flex-col text-center gap-2">
-                <p className="text-sm ">Recompensa</p>
-                <Link href={`/reward/${goal.reward.idReward}`}>
-                  <div className="aspect-square relative  h-24 bg-neutral-500/20 hover:bg-neutral-300/20 cursor-pointer duration-75 rounded-md">
-                    <div className="absolute w-full h-full justify-center items-center flex flex-col ">
-                      {goal.reward.nameReward && (
-                        <p>{goal.reward.nameReward}</p>
-                      )}
-                      {goal.reward.valueReward && (
-                        <p className="text-sm text-neutral-400">
-                          (R${goal.reward.valueReward})
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            )}
-          </div>
         </div>
         {goal.goalSteps.length > 0 && (
           <div className="goal-steps flex flex-col gap-2 ">
@@ -71,31 +49,22 @@ const GoalCard: React.FC<{ goal: Goal }> = ({ goal }) => {
           </div>
         )}
         <div className="flex gap-2">
-          {isEditing ? (
+          {isEditing && (
             <button
               onClick={() => setEditing((oldState) => !oldState)}
               className="p-2 bg-green-300/20 hover:bg-green-300/30 duration-75 rounded-md w-full"
             >
               Salvar Edições
             </button>
-          ) : (
-            <>
-              {/* <button
-                className="ml-auto p-2 bg-red-300/20 hover:bg-red-300/30 duration-75 rounded-md"
-                onClick={async () => {
-                  await deleteGoal(goal.idGoal);
-                }}
-              >
-                Remover
-              </button>
-              <button
-                onClick={() => setEditing((oldState) => !oldState)}
-                className="p-2 bg-neutral-500/20 hover:bg-neutral-500/30 duration-75 rounded-md"
-              >
-                Editar
-              </button> */}
-            </>
           )}
+          <button
+            className="bg-black/70 w-full rounded-md text-sm hover:bg-black/40 text-white"
+            onClick={() => {
+              markAsCompleted(goal.idGoal);
+            }}
+          >
+            Completar (+R$ {goal.reward.toFixed(2)})
+          </button>
           <div className="ml-auto relative">
             <div
               className={`flex duration-75 flex-col gap-2 right-0 absolute bottom-12 bg-neutral-500/20 backdrop-blur-sm p-2 rounded-md text-sm ${

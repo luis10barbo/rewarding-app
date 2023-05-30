@@ -4,14 +4,17 @@ import {
   saveGoalSV,
   getMyGoalsSV,
   deleteAllGoalsSV,
+  markGoalCompletedSV,
 } from "@/server/db/goalsTable";
 import {
   createContext,
   Dispatch,
   SetStateAction,
+  useContext,
   useEffect,
   useState,
 } from "react";
+import { UserContext } from "./UserContext";
 
 interface GoalsContextInterface {
   goals: Goals | null;
@@ -20,6 +23,7 @@ interface GoalsContextInterface {
   deleteAllGoals: () => Promise<void>;
   deleteGoal: (idGoal: Parameters<typeof deleteGoalSV>[0]) => Promise<void>;
   saveGoal: (idGoal: Parameters<typeof saveGoalSV>[0]) => Promise<void>;
+  markAsCompleted: (idGoal: string) => Promise<void>;
 }
 
 export const GoalsContext = createContext({} as GoalsContextInterface);
@@ -28,9 +32,11 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [goals, setGoals] = useState<Goals | null>(null);
+  const { loadUser } = useContext(UserContext);
 
   async function getMyGoals() {
-    setGoals(await getMyGoalsSV());
+    const goals = await getMyGoalsSV();
+    if (!goals.error) setGoals(goals.data);
   }
 
   async function deleteAllGoals() {
@@ -48,6 +54,12 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({
     await getMyGoals();
   }
 
+  async function markAsCompleted(params: string) {
+    await markGoalCompletedSV(params);
+    await getMyGoals();
+    await loadUser();
+  }
+
   useEffect(() => {
     getMyGoals();
   }, []);
@@ -61,6 +73,7 @@ export const GoalsProvider: React.FC<{ children: React.ReactNode }> = ({
         deleteGoal,
         saveGoal,
         getMyGoals,
+        markAsCompleted,
       }}
     >
       {children}

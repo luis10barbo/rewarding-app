@@ -26,13 +26,9 @@ export class AuthenticatedCall {
   }
   private async getUser() {
     const user = await getUser();
-    if (!user) {
-      throw new Error("User is not logged in.");
-    }
-
-    this.user = user;
+    this.user = user as any;
   }
-  private async privateRun({ user }: { user: User }) {}
+  private async privateRun({ user }: { user: User }): Promise<any> {}
   setExecution<Return>(
     execution: ({
       user,
@@ -48,12 +44,42 @@ export class AuthenticatedCall {
     }: {
       user: User;
     }) => Promise<Return> | (() => Promise<Return>)
-  ): Promise<Return> {
+  ) {
     this.setExecution(execution);
-    return (await this.run()) as Return;
+    return await this.run<Return>();
   }
-  async run() {
+  async run<Return>() {
     if (!this.user) await this.getUser();
-    return await this.privateRun({ user: this.user });
+    if (this.user === null) return createError("Error logging in");
+
+    const result = await this.privateRun({ user: this.user });
+
+    if (!result) return createError("Error fetching data");
+    else if (isError(result)) return result;
+
+    return createSuccess<Return>(result);
   }
+}
+
+export function isError(value: any): value is ReturnType<typeof createError> {
+  return "error" in value && "message" in value;
+}
+
+export function createError(message: string): { error: true; message: string } {
+  return { error: true, message: message } as { error: true; message: string };
+}
+
+export function createSuccess<Data>(data: Data) {
+  return { error: false, data } as {
+    error: false;
+    data: Data;
+  };
+}
+
+function fetchOption<FetchReturn>(
+  fetchReturn: FetchReturn | null,
+  errorMessage: string
+) {
+  if (fetchReturn) return createSuccess(fetchReturn);
+  return createError(errorMessage);
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { Rewards } from "@/components/pages/rewardsPage/card/RewardCard";
 import {
+  Reward,
   claimRewardSV,
   getMyRewardsSV,
   removeRewardSV,
@@ -17,8 +17,8 @@ import {
 import { UserContext } from "./UserContext";
 
 interface RewardsContextInterface {
-  rewards: Rewards[] | null;
-  setRewards: Dispatch<SetStateAction<Rewards[] | null>>;
+  rewards: Reward[] | null;
+  setRewards: Dispatch<SetStateAction<Reward[] | null>>;
   claimReward: (idReward: string) => Promise<void>;
   removeReward: (idReward: string) => Promise<void>;
 }
@@ -28,12 +28,15 @@ export const RewardsContext = createContext({} as RewardsContextInterface);
 export const RewardsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [rewards, setRewards] = useState<Rewards[] | null>(null);
+  const [rewards, setRewards] = useState<Reward[] | null>(null);
 
   const { loadUser } = useContext(UserContext);
 
   async function getRewards() {
-    setRewards(await getMyRewardsSV());
+    const response = await getMyRewardsSV();
+    if (response.error) return;
+
+    setRewards(response.data);
   }
 
   async function claimReward(idReward: string) {

@@ -17,7 +17,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <main
+            className="flex items-center min-h-screen bg-neutral-950 flex-col gap-2 relative overflow-hidden
+        after:rounded-full z-10 py-4"
+          >
+            {children}
+          </main>
+        </UserProvider>
       </body>
     </html>
   );

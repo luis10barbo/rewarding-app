@@ -87,3 +87,50 @@ export async function deleteAllGoalsSV() {
 export async function deleteGoalSV(idGoal: string) {
   return await db.goal.delete({ where: { idGoal } });
 }
+
+export async function markGoalCompletedSV(idGoal: string) {
+  return new AuthenticatedCall().execute(async ({ user }) => {
+    const goal = await db.goal.findFirst({
+      where: { idGoal, idOwner: user.idUser },
+    });
+    if (!goal) return;
+
+    const result = await db.goal.update({
+      where: { idGoal: goal.idGoal },
+      data: {
+        claim: {
+          create: {
+            owner: { connect: { idUser: goal.idOwner } },
+            valueClaim: goal.reward,
+          },
+        },
+      },
+    });
+    await db.user.update({
+      where: { idUser: user.idUser },
+      data: { balanceUser: { increment: result.reward } },
+    });
+    return result;
+  });
+}
+
+export async function markGoalUncompletedSV(idGoal: string) {
+  return new AuthenticatedCall().execute(async ({ user }) => {
+    const goal = await db.goal.findFirst({
+      where: { idGoal, idOwner: user.idUser },
+    });
+    if (!goal) return;
+
+    const result = await db.goal.update({
+      where: { idGoal: goal.idGoal },
+      data: {
+        claim: { disconnect: true },
+      },
+    });
+    await db.user.update({
+      where: { idUser: user.idUser },
+      data: { balanceUser: { increment: result.reward } },
+    });
+    return result;
+  });
+}

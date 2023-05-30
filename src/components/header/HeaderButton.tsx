@@ -9,7 +9,7 @@ const HeaderButton: React.FC<
   return (
     <button
       {...params}
-      className="whitespace-nowrap h-full w-fit py-2 px-4 rounded-md bg-neutral-500/20 hover:bg-white hover:text-black duration-75 border border-transparent
+      className="whitespace-nowrap h-full w-fit py-2 px-4 rounded-md  hover:bg-white hover:text-black duration-75 border border-transparent
       active:border-neutral-500/40 capitalize"
     >
       {params.children}

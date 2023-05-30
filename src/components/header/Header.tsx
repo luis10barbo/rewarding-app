@@ -9,7 +9,7 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
   const { register, login, user, logout } = useContext(UserContext);
   return (
     <header className=" overflow-y-auto flex max-w-[100vw]  items-center gap-2 pb-4">
-      <Link href={"/"}>
+      <Link href={"/me/goals"}>
         <HeaderButton
           onClick={async () => {
             await login("luis10barbo", "teste");
@@ -17,6 +17,9 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
         >
           Goals
         </HeaderButton>
+      </Link>
+      <Link href={"/me/history"}>
+        <HeaderButton>History</HeaderButton>
       </Link>
       <Link href={"/me/rewards"}>
         <HeaderButton
@@ -55,7 +58,9 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
             logout
           </HeaderButton>
 
-          <p>Saldo: R${user.balanceUser}</p>
+          <p className="bg-green-600/70 p-3 rounded-md text-sm">
+            R${user.balanceUser.toFixed(2)}
+          </p>
         </>
       )}
     </header>

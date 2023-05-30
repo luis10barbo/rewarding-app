@@ -10,8 +10,7 @@ export async function getGoalSV(idGoal: Goal["idGoal"]) {
     },
     include: {
       goalSteps: true,
-      reward: true,
-      user: true,
+      owner: true,
     },
   });
 }
@@ -29,26 +28,15 @@ export async function saveGoalSV(params: {
   new AuthenticatedCall().execute(async ({ user }) => {
     await db.goal.create({
       data: {
-        completed: false,
         nameGoal: params.nameGoal,
         descriptionGoal: params.descriptionGoal,
-        reward: {
-          create: {
-            nameReward: params.reward.nameReward,
-            valueReward: params.reward.valueReward,
-            user: {
-              connect: {
-                idUser: user.idUser,
-              },
-            },
-          },
-        },
+        reward: 70.5,
         goalSteps: {
           create: params.goalSteps.map((step) => {
             return { completed: false, contentStep: step };
           }),
         },
-        user: {
+        owner: {
           connect: {
             idUser: user.idUser,
           },
@@ -63,7 +51,6 @@ export async function getAllGoalsSV() {
   return await db.goal.findMany({
     include: {
       goalSteps: true,
-      reward: true,
     },
   });
 }
@@ -71,10 +58,9 @@ export async function getAllGoalsSV() {
 export async function getMyGoalsSV() {
   return await new AuthenticatedCall().execute(async ({ user }) => {
     return await db.goal.findMany({
-      where: { user: { idUser: user.idUser } },
+      where: { owner: { idUser: user.idUser }, claim: { is: null } },
       include: {
         goalSteps: true,
-        reward: true,
       },
     });
   });

@@ -11,10 +11,7 @@ import { useContext } from "react";
 const Rewards: React.FC = () => {
   const { rewards } = useContext(RewardsContext);
   return (
-    <main
-      className="flex items-center min-h-screen bg-gradient-radial flex-col gap-2 relative overflow-hidden
-  after:rounded-full z-10 py-4"
-    >
+    <>
       <Header
         extraComponents={
           <>
@@ -34,9 +31,7 @@ const Rewards: React.FC = () => {
           <RewardCard reward={reward} key={reward.idReward}></RewardCard>
         ))}
       </div>
-      <div className="w-full h-[90%] bg-cyan-300/10 absolute -top-32 -z-10 blur-[100px] rounded-full"></div>
-      <div className="w-full h-full bg-neutral-900/10 absolute -z-20 top-0"></div>
-    </main>
+    </>
   );
 };
 

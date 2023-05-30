@@ -12,28 +12,27 @@ datasource db {
 
 model Reward {
   idReward String @unique @default(cuid())
-  idUser   String
+  idOwner  String
 
-  nameReward  String
-  valueReward Float
+  nameReward        String
+  descriptionReward String?
+  valueReward       Float
 
-  user User   @relation(fields: [idUser], references: [idUser])
-  goal Goal[]
+  owner User @relation(fields: [idOwner], references: [idUser])
 }
 
 model Goal {
-  idGoal   String  @unique @default(cuid())
-  idReward String?
-  idUser   String
+  idGoal  String  @unique @default(cuid())
+  idOwner String
+  idClaim String?
 
   nameGoal        String
   descriptionGoal String?
   goalSteps       GoalStep[]
-  reward          Reward?    @relation(fields: [idReward], references: [idReward])
+  reward          Float      @default(0)
 
-  completed  Boolean
-  user       User    @relation(fields: [idUser], references: [idUser])
-  userIdUser String?
+  claim Claim?
+  owner User   @relation(fields: [idOwner], references: [idUser])
 }
 
 model GoalStep {
@@ -64,4 +63,16 @@ model User {
   goals   Goal[]
   reward  Reward[]
   session Session[]
+  claims  Claim[]
+}
+
+model Claim {
+  idClaim String @unique @default(cuid())
+  idOwner String
+  idGoal  String @unique
+
+  valueClaim Float
+  dateClaim  DateTime @default(now())
+  owner      User     @relation(fields: [idOwner], references: [idUser], onDelete: Cascade)
+  goal       Goal     @relation(fields: [idGoal], references: [idGoal], onDelete: Cascade)
 }

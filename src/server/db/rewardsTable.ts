@@ -1,19 +1,21 @@
 "use server";
 
 import db from "../prisma";
-import { PublicCall } from "../templates/callTemplates";
 import { AuthenticatedCall } from "../templates/callTemplates";
+
+export type Rewards = NonNullable<Awaited<ReturnType<typeof getMyRewardsSV>>>;
+export type Reward = Extract<Rewards, { error: false }>["data"][0];
 
 export async function getMyRewardsSV() {
   return new AuthenticatedCall().execute(async ({ user }) => {
-    return db.reward.findMany({ where: { idUser: user.idUser } });
+    return db.reward.findMany({ where: { idOwner: user.idUser } });
   });
 }
 
 export async function getMyRewardSV(idReward: string) {
   return new AuthenticatedCall().execute(async ({ user }) => {
     return db.reward.findFirst({
-      where: { idUser: user.idUser, idReward: idReward },
+      where: { idOwner: user.idUser, idReward: idReward },
     });
   });
 }
@@ -37,7 +39,7 @@ export async function claimRewardSV(idReward: string) {
 export async function removeRewardSV(idReward: string) {
   return new AuthenticatedCall().execute(async ({ user }) => {
     const reward = await db.reward.findFirst({
-      where: { idReward, idUser: user.idUser },
+      where: { idReward, idOwner: user.idUser },
     });
     if (!reward) return;
 

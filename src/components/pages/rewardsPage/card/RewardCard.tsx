@@ -1,12 +1,11 @@
 import { RewardsContext } from "@/context/RewardsContext";
 import { UserContext } from "@/context/UserContext";
-import { Goals } from "@/server/db/goalsTable";
+import { Reward } from "@/server/db/rewardsTable";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
 
-export type Rewards = NonNullable<Goals[0]["reward"]>;
-const RewardCard: React.FC<{ reward: Rewards }> = ({ reward }) => {
+const RewardCard: React.FC<{ reward: Reward }> = ({ reward }) => {
   const { claimReward, removeReward } = useContext(RewardsContext);
   const { user } = useContext(UserContext);
 

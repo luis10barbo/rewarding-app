@@ -8,7 +8,7 @@ const Header: React.FC<{ extraComponents?: React.ReactNode }> = ({
 }) => {
   const { register, login, user, logout } = useContext(UserContext);
   return (
-    <header className=" overflow-y-auto flex max-w-[100vw]  items-center gap-2 pb-4">
+    <header className=" overflow-y-auto flex max-w-[100vw] mx-auto items-center gap-2 pb-4">
       <Link href={"/me/goals"}>
         <HeaderButton
           onClick={async () => {

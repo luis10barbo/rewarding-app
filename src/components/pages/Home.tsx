@@ -1,58 +1,53 @@
-import { useEffect, useContext } from "react";
-import HeaderButton from "../header/HeaderButton";
-import Header from "../header/Header";
-import GoalCard from "../goals/card/GoalCard";
-import { UserContext } from "@/context/UserContext";
-import { GoalsContext } from "@/context/GoalsContext";
+import Image from "next/image";
+import Link from "next/link";
 
 const Home: React.FC = () => {
-  const { user } = useContext(UserContext);
-  const { goals, getMyGoals, saveGoal, deleteAllGoals } =
-    useContext(GoalsContext);
-  useEffect(() => {
-    getMyGoals();
-  }, [user]);
-
   return (
     <>
-      <Header
-        extraComponents={
-          <>
-            <HeaderButton
-              onClick={async () => {
-                await saveGoal({
-                  nameGoal: "Terminar esse site",
-                  goalSteps: ["wAGA", "Outra etapa"],
-                  descriptionGoal:
-                    "A descricao mais pica do mundo e maior mais logan longa logan",
-                  reward: { nameReward: "Pizza Enorme", valueReward: 72.5 },
-                });
-              }}
-            >
-              Criar default
-            </HeaderButton>
-            <HeaderButton
-              onClick={async () => {
-                await deleteAllGoals();
-              }}
-            >
-              Deletar todos
-            </HeaderButton>
-          </>
-        }
-      />
-      <div className="z-20 flex flex-col items-center gap-2 w-full">
-        {/* <div className="w-full rounded-xl  bg-transparent border border-neutral-500 outline-1 focus:border-neutral-400 outline-none duration-75">
-          <input className="bg-transparent w-full p-2 rounded-xl outline-none"></input>
-        </div> */}
-        {/* {JSON.stringify(goals)} */}
-        {goals?.map((goal) => (
-          <GoalCard goal={goal} key={goal.idGoal} />
-        ))}
+      <div className="flex-col flex gap-4 w-full relative h-screen">
+        <div className="p-12 2xl:py-24 z-20 flex flex-col items-center lg:items-start gap-16 lg:max-w-[50vw] h-full">
+          <div className="eye-catching ">
+            <p className="text-5xl 2xl:text-8xl">
+              <span className="text-neutral-200 2xl:text-3xl text-2xl">
+                completing your{" "}
+              </span>{" "}
+              GOALS
+            </p>{" "}
+            <p className="text-5xl 2xl:text-8xl">
+              <span className="text-neutral-200 text-2xl 2xl:text-3xl ">
+                can now be{" "}
+              </span>
+              REWARDING
+            </p>
+          </div>
+
+          <p className="text-2xl text-center lg:text-left">
+            Give your self a boost in productivity right now with{" "}
+            <span className="text-4xl">Rewarding</span>
+          </p>
+          <Link
+            href={"/me"}
+            className=" w-fit text-2xl p-6 px-16 mt-auto bg-white  text-black rounded-xl duration-75"
+          >
+            Start now
+          </Link>
+        </div>
+        <div className="absolute z-10 bg-black/50 w-full h-full top-0 left-0" />
+        <Image
+          src={"/static/images/pages/home-hero-by-benzoix.jpg"}
+          alt=""
+          fill={true}
+          className="object-cover lg:object-contain z-0 object-[right]"
+        />
+        <p className="absolute bottom-0 right-0 m-4 z-50">
+          <a href="https://www.freepik.com/free-photo/vertical-shot-asian-girl-sits-floor-home-working-laptop-studying-cozy-place-using-com_36505430.htm#query=happy%20work%20from%20home&position=6&from_view=search&track=location_fest_v1">
+            Image by benzoix
+          </a>{" "}
+          on Freepik
+        </p>
       </div>
-      {/* <div className="w-full h-[90%] bg-cyan-300/10 absolute -top-32 -z-10 blur-[100px] rounded-full"></div>
-      <div className="w-full h-full bg-neutral-900/10 absolute -z-20 top-0"></div> */}
     </>
   );
 };
+
 export default Home;

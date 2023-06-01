@@ -18,10 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <UserProvider>
-          <main
-            className="flex items-center min-h-screen bg-neutral-950 flex-col gap-2 relative overflow-hidden
-        after:rounded-full z-10 py-4"
-          >
+          <main className="flex items-center min-h-screen bg-neutral-950 flex-col gap-2 overflow-auto">
             {children}
           </main>
         </UserProvider>

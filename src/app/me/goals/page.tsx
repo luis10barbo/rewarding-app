@@ -1,10 +1,10 @@
 "use client";
 
-import Home from "@/components/pages/Home";
+import Goals from "@/components/pages/Goals";
 import { NextPage } from "next";
 
 const GoalsPage: NextPage = () => {
-  return <Home />;
+  return <Goals />;
 };
 
 export default GoalsPage;

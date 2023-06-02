@@ -19,7 +19,7 @@ const Login: React.FC = () => {
       {isRegistering ? (
         <div className="flex w-full min-h-screen justify-center items-center ">
           <div className="flex flex-col gap-2 bg-neutral-500/20 p-6 rounded-xl items-center">
-            <p className="text-red-400">Error: {error?.message}.</p>
+            {error && <p className="text-red-400">Error: {error.message}.</p>}
             <Input
               placeholder="Type your nickname"
               value={nickname}

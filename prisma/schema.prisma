@@ -57,6 +57,7 @@ model User {
   nicknameUser String @unique
 
   passwordUser String
+  salt         String
 
   balanceUser Float
 

@@ -18,7 +18,7 @@ model Reward {
   descriptionReward String?
   valueReward       Float
 
-  owner User @relation(fields: [idOwner], references: [idUser])
+  owner User @relation(fields: [idOwner], references: [idUser], onDelete: Cascade)
 }
 
 model Goal {
@@ -32,7 +32,7 @@ model Goal {
   reward          Float      @default(0)
 
   claim Claim?
-  owner User   @relation(fields: [idOwner], references: [idUser])
+  owner User   @relation(fields: [idOwner], references: [idUser], onDelete: Cascade)
 }
 
 model GoalStep {

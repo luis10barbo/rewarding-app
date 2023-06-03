@@ -22,7 +22,8 @@ interface UserContextInterface {
   login: (nickname: string, password: string) => Promise<void>;
   register: (nickname: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  loadUser: () => Promise<void>;
+  loadUser: () => Promise<getUserResult>;
+  isLoadingUser: boolean;
 }
 
 export const UserContext = createContext<UserContextInterface>(
@@ -32,11 +33,17 @@ export const UserContext = createContext<UserContextInterface>(
 export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<getUserResult | null>(null);
+  const [user, setUser] = useState<getUserResult>(null);
+  const [isLoadingUser, setLoadingUser] = useState(true);
 
   async function loadUser() {
+    setLoadingUser(true);
+
     const user = await getUser();
     setUser(user);
+
+    setLoadingUser(false);
+    return user;
   }
 
   async function login(nickname: string, password: string) {
@@ -60,7 +67,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, login, register, logout, loadUser }}
+      value={{
+        user,
+        setUser,
+        login,
+        register,
+        logout,
+        loadUser,
+        isLoadingUser,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -19,6 +19,7 @@ const Login: React.FC = () => {
       {isRegistering ? (
         <div className="flex w-full min-h-screen justify-center items-center ">
           <div className="flex flex-col gap-2 bg-neutral-500/20 p-6 rounded-xl items-center">
+            <p className="text-xl mb-4">Register an account</p>
             {error && <p className="text-red-400">Error: {error.message}.</p>}
             <Input
               placeholder="Type your nickname"
@@ -46,19 +47,26 @@ const Login: React.FC = () => {
               Register
             </button>
 
-            <p
-              className="text-white cursor-pointer w-fit"
-              onClick={() => {
-                setRegistering(false);
-              }}
-            >
-              Login into an existing account
+            <p className="text-neutral-400 w-fit">
+              Already have registered?{" "}
+              <span
+                className="cursor-pointer text-white"
+                onClick={() => {
+                  setRegistering(false);
+                }}
+              >
+                login here
+              </span>
             </p>
           </div>
         </div>
       ) : (
         <div className="flex w-full min-h-screen justify-center items-center">
-          <div className="flex flex-col gap-2 bg-neutral-500/20 p-6 rounded-xl">
+          <div className="flex flex-col gap-2 bg-neutral-500/20 p-6 rounded-xl items-center">
+            {error && <p className="text-red-400">Error: {error.message}</p>}
+
+            <p className="text-xl mb-4">Login into your account</p>
+
             <Input
               value={nickname}
               onChange={(e) => {
@@ -77,9 +85,10 @@ const Login: React.FC = () => {
             <button
               onClick={async () => {
                 const result = await loginServer(nickname, password);
-                if (result) void navRouter.push("/me");
+                if (result) return void navRouter.push("/me");
+                setError(createError("Wrong user or password."));
               }}
-              className="p-2 border border-neutral-500 rounded-md hover:border-neutral-400 duration-75"
+              className="p-2 border border-neutral-500 rounded-md hover:border-neutral-400 duration-75 w-full"
             >
               Login
             </button>
@@ -110,7 +119,7 @@ const Input: React.FC<
     <input
       type="text"
       {...props}
-      className="bg-transparent border border-neutral-500 p-2 rounded-md hover:border-neutral-400 duration-75 outline-none"
+      className="bg-transparent border border-neutral-500 p-2 rounded-md hover:border-neutral-400 duration-75 outline-none w-full"
     />
   );
 };
